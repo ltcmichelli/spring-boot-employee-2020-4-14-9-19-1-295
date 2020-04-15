@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,22 +23,29 @@ public class EmployeeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Employee>> getEmployeeList(){
+    public ResponseEntity<List<Employee>> getEmployeeList() {
         return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Employee> addEmployee(@RequestBody Employee employee){
-        employeeList.add(employee);
-        return employeeList;
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee newEmployee) {
+        if (newEmployee == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        Employee employeeWithSameId = employeeList.stream().filter(employee -> employee.getEmployeeId() == newEmployee.getEmployeeId()).findFirst().orElse(null);
+        if (employeeWithSameId != null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        employeeList.add(newEmployee);
+        return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{employeeId}")
-    public ResponseEntity<Employee> deleteEmployee(@PathVariable int employeeId){
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable int employeeId) {
         Employee deleteEmployee = employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);
 
-        if (deleteEmployee == null){
+        if (deleteEmployee == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         employeeList.remove(deleteEmployee);
@@ -48,10 +54,10 @@ public class EmployeeController {
     }
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable int employeeId, @RequestBody Employee updateEmployee){
+    public ResponseEntity<Employee> updateEmployee(@PathVariable int employeeId, @RequestBody Employee updateEmployee) {
         Employee employeeInList = employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);
 
-        if (employeeInList == null){
+        if (employeeInList == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         employeeList.remove(employeeInList);
