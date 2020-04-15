@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-    public List<Company> companyList;
+    public List<Company> companyList = new ArrayList<>();
 
     public CompanyController() {
         List<Employee> employeeListInCompanyA = Arrays.asList(
@@ -33,7 +34,8 @@ public class CompanyController {
         Company companyA = new Company(1,"Company A", 200, employeeListInCompanyA);
         Company companyB = new Company(2,"Company B", 100, employeeListInCompanyB);
 
-        companyList = Arrays.asList(companyA, companyB);
+        companyList.add(companyA);
+        companyList.add(companyB);
     }
 
     @GetMapping
@@ -62,5 +64,19 @@ public class CompanyController {
             new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(resultCompany.getEmployees(), HttpStatus.OK);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Company> addCompany(@RequestBody Company newCompany) {
+        if (newCompany == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        Company companyWithSameId = companyList.stream().filter(company -> company.getCompanyId() == newCompany.getCompanyId()).findFirst().orElse(null);
+        if (companyWithSameId != null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        companyList.add(newCompany);
+        return new ResponseEntity<>(newCompany, HttpStatus.CREATED);
     }
 }
