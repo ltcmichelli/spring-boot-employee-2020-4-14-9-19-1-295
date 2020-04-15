@@ -1,24 +1,31 @@
 package com.thoughtworks.springbootemployee.model;
 
 public class Employee {
-    public int id;
+    public int employeeId;
     public String name;
     public int age;
     public String gender;
 
-    public Employee(int id, String name, int age, String gender) {
-        this.id = id;
+    public Employee(int employeeId, String name, int age, String gender) {
+        this.employeeId = employeeId;
         this.name = name;
         this.age = age;
         this.gender = gender;
     }
 
-    public int getId() {
-        return id;
+    public boolean isSameEmployeeId(int employeeId){
+        if (this.employeeId == employeeId){
+            return true;
+        }
+        return false;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getName() {
