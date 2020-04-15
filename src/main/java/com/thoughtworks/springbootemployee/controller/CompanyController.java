@@ -93,4 +93,16 @@ public class CompanyController {
 
         return new ResponseEntity<>(updateCompany, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{companyId}")
+    public ResponseEntity<Company> deleteCompany(@PathVariable int companyId) {
+        Company deleteCompany = companyList.stream().filter(company -> company.getCompanyId() == companyId).findFirst().orElse(null);
+
+        if (deleteCompany == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        companyList.remove(deleteCompany);
+
+        return new ResponseEntity<>(deleteCompany, HttpStatus.OK);
+    }
 }
