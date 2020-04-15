@@ -24,8 +24,8 @@ public class EmployeeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> getEmployeeList(){
-        return employeeList;
+    public ResponseEntity<List<Employee>> getEmployeeList(){
+        return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
     @PostMapping
