@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,5 +79,18 @@ public class CompanyController {
         }
         companyList.add(newCompany);
         return new ResponseEntity<>(newCompany, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{companyId}")
+    public ResponseEntity<Company> updateCompany(@PathVariable int companyId, @RequestBody Company updateCompany) {
+        Company companyInList = companyList.stream().filter(company -> company.getCompanyId() == companyId).findFirst().orElse(null);
+
+        if (companyInList == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        companyList.remove(companyInList);
+        companyList.add(updateCompany);
+
+        return new ResponseEntity<>(updateCompany, HttpStatus.OK);
     }
 }
