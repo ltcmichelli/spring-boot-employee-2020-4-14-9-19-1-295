@@ -41,8 +41,21 @@ public class CompanyController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Company>> getCompanyList() {
-        return new ResponseEntity<>(companyList, HttpStatus.OK);
+    public ResponseEntity<List<Company>> getCompanyList(@RequestParam(value="page", required=false) Integer page,
+                                                        @RequestParam(value="pageSize", required=false) Integer pageSize) {
+        List<Company> resultCompanyList;
+        if (page == null && pageSize == null){
+            return new ResponseEntity<>(companyList, HttpStatus.OK);
+        }
+
+        Page paging = new Page(page, pageSize);
+        resultCompanyList = paging.getPagingCompanyList(companyList);
+
+        if (resultCompanyList.isEmpty()){
+            new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(resultCompanyList, HttpStatus.OK);
     }
 
     @GetMapping("/{companyId}")

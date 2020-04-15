@@ -27,4 +27,21 @@ public class Page {
         }
         return employeeList.subList(lowerBound, upperBound);
     }
+
+    public List<Company> getPagingCompanyList(List<Company> companyList) {
+        if (companyList.isEmpty()){
+            return null;
+        }
+
+        if (page <= 0 || pageSize <= 0){
+            return null;
+        }
+
+        Integer lowerBound = (page - 1) * pageSize;
+        Integer upperBound = page * pageSize;
+        if (upperBound > companyList.size()) {
+            upperBound = companyList.size();
+        }
+        return companyList.subList(lowerBound, upperBound);
+    }
 }
