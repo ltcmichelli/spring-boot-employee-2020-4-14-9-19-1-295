@@ -30,8 +30,8 @@ public class CompanyController {
                 new Employee(7, "Cathy", 15, "Female", 9000),
                 new Employee(8, "David", 16, "Male", 9000)
         );
-        Company companyA = new Company("Company A", 200, employeeListInCompanyA);
-        Company companyB = new Company("Company B", 100, employeeListInCompanyB);
+        Company companyA = new Company(1,"Company A", 200, employeeListInCompanyA);
+        Company companyB = new Company(2,"Company B", 100, employeeListInCompanyB);
 
         companyList = Arrays.asList(companyA, companyB);
     }
@@ -40,5 +40,16 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Company>> getCompanyList() {
         return new ResponseEntity<>(companyList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{companyId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Company> getCompanyById(@PathVariable int companyId) {
+        Company resultCompany = companyList.stream().filter(company -> company.getCompanyId() == companyId).findFirst().orElse(null);
+
+        if (resultCompany == null){
+            new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(resultCompany, HttpStatus.OK);
     }
 }
