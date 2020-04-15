@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
-import org.apache.tomcat.util.buf.StringUtils;
+import com.thoughtworks.springbootemployee.model.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,15 +25,29 @@ public class EmployeeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value="gender", required=false) String gender) {
-        if (gender == null){
+    public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value="gender", required=false) String gender,
+                                                          @RequestParam(value="page", required=false) Integer page,
+                                                          @RequestParam(value="pageSize", required=false) Integer pageSize) {
+        List<Employee> resultEmployeeList;
+        if (gender == null && page == null && pageSize == null){
             return new ResponseEntity<>(employeeList, HttpStatus.OK);
         }
 
-        List<Employee> resultEmployeeList = employeeList.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
+        if(gender != null){
+            resultEmployeeList = employeeList.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
+            if (resultEmployeeList.isEmpty()){
+                new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
+        }
+
+        Page paging = new Page(page, pageSize);
+        resultEmployeeList = paging.getPagingEmployeeList(employeeList);
+
         if (resultEmployeeList.isEmpty()){
             new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
     }
 

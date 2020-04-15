@@ -13,13 +13,6 @@ public class Employee {
         this.gender = gender;
     }
 
-    public boolean isSameEmployeeId(int employeeId){
-        if (this.employeeId == employeeId){
-            return true;
-        }
-        return false;
-    }
-
     public int getEmployeeId() {
         return employeeId;
     }
