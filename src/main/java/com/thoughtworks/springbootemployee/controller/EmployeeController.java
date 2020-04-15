@@ -16,11 +16,11 @@ public class EmployeeController {
     public List<Employee> employeeList = new ArrayList<>();
 
     public EmployeeController() {
-        employeeList.add(new Employee(0, "Xiaoming", 20, "Male"));
-        employeeList.add(new Employee(1, "Xiaohong", 19, "Female"));
-        employeeList.add(new Employee(2, "Xiaozhi", 15, "Male"));
-        employeeList.add(new Employee(3, "Xiaogang", 16, "Male"));
-        employeeList.add(new Employee(4, "Xiaoxia", 15, "Female"));
+        employeeList.add(new Employee(0, "Xiaoming", 20, "Male", 9000));
+        employeeList.add(new Employee(1, "Xiaohong", 19, "Female", 9000));
+        employeeList.add(new Employee(2, "Xiaozhi", 15, "Male", 9000));
+        employeeList.add(new Employee(3, "Xiaogang", 16, "Male", 9000));
+        employeeList.add(new Employee(4, "Xiaoxia", 15, "Female", 9000));
     }
 
     @GetMapping
