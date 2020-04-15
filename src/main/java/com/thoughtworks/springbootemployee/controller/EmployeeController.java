@@ -1,12 +1,14 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -23,8 +25,16 @@ public class EmployeeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Employee>> getEmployeeList() {
-        return new ResponseEntity<>(employeeList, HttpStatus.OK);
+    public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value="gender", required=false) String gender) {
+        if (gender == null){
+            return new ResponseEntity<>(employeeList, HttpStatus.OK);
+        }
+
+        List<Employee> resultEmployeeList = employeeList.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
+        if (resultEmployeeList.isEmpty()){
+            new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
     }
 
     @GetMapping("/{employeeId}")
