@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CompanyControllerTest {
+    public static final int ORIGINAL_EMPLOYEE_LIST_SIZE = 2;
 
     public void init() {
         CompanyController companyController = new CompanyController();
@@ -36,6 +38,17 @@ public class CompanyControllerTest {
                 () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
                 () -> Assert.assertEquals(1, actualResult.getCompanyId())
         );
+    }
 
+    @Test
+    public void shouldReturnCompanyList_whenGetCompany() {
+        init();
+        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/companies");
+        List<Company> actualResultList = response.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE, actualResultList.size())
+        );
     }
 }
