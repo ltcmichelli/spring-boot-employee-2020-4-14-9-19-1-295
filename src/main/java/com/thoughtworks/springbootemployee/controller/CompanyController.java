@@ -59,9 +59,8 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Company> addCompany(@RequestBody Company newCompany) {
         try {
-            service.addCompany(newCompany);
-            return new ResponseEntity<>(null, HttpStatus.CREATED);
-
+            Company company = service.addCompany(newCompany);
+            return new ResponseEntity<>(company, HttpStatus.CREATED);
         } catch (Exception exception) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
