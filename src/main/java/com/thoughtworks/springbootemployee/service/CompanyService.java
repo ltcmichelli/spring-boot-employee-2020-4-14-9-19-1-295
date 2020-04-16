@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.model.Page;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +18,22 @@ public class CompanyService {
         return repository.findAll();
     }
 
-    public List<Company> getSpecificEmployeeList(Integer page, Integer pageSize) throws Exception {
+    public List<Company> getSpecificCompanyList(Integer page, Integer pageSize) throws Exception {
 
         if (page == null && pageSize == null) {
             return getAllCompanyList();
         }
 
-        return getEmployeeWithPaging(page, pageSize);
+        return getCompanyWithPaging(page, pageSize);
     }
 
 
-    public Company getCompanyById(Integer companyId) throws Exception {
-        return repository.findById(companyId);
+    public List<Employee> getEmployeeListByCompanyId(Integer companyId) throws Exception {
+        return repository.getEmployeeListByCompanyId(companyId);
     }
 
 
-    public List<Company> getEmployeeWithPaging(Integer page, Integer pageSize) throws Exception {
+    public List<Company> getCompanyWithPaging(Integer page, Integer pageSize) throws Exception {
         List<Company> companyList = getAllCompanyList();
         Page paging = new Page(page, pageSize);
         List<Company> resultList = paging.getPagingCompanyList(companyList);
@@ -42,7 +43,11 @@ public class CompanyService {
         return resultList;
     }
 
-    public Company addEmployee(Company company) throws Exception {
+    public Company getCompanyById(Integer companyId) throws Exception {
+        return repository.findById(companyId);
+    }
+
+    public Company addCompany(Company company) throws Exception {
         if (company == null) {
             throw new Exception();
         }
@@ -74,7 +79,7 @@ public class CompanyService {
         return repository.save(targetCompany);
     }
 
-    public void deleteEmployee(Integer companyId) throws Exception {
+    public void deleteCompany(Integer companyId) throws Exception {
         repository.deleteById(companyId);
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 public class CompanyRepository {
     public List<Company> companyList = new ArrayList<>();
 
-    public CompanyRepository(){
+    public CompanyRepository() {
         List<Employee> employeeListInCompanyA = Arrays.asList(
                 new Employee(1, "Xiaoming", 20, "Male", 9000),
                 new Employee(2, "Xiaohong", 19, "Female", 8000),
@@ -26,8 +26,8 @@ public class CompanyRepository {
                 new Employee(8, "Cathy", 15, "Female", 9000),
                 new Employee(9, "David", 16, "Male", 9000)
         );
-        Company companyA = new Company(1,"Company A", 200, employeeListInCompanyA);
-        Company companyB = new Company(2,"Company B", 100, employeeListInCompanyB);
+        Company companyA = new Company(1, "Company A", 200, employeeListInCompanyA);
+        Company companyB = new Company(2, "Company B", 100, employeeListInCompanyB);
 
         companyList.add(companyA);
         companyList.add(companyB);
@@ -51,4 +51,9 @@ public class CompanyRepository {
         companyList.remove(targetCompany);
     }
 
+    public List<Employee> getEmployeeListByCompanyId(Integer companyId) throws Exception {
+        Company resultCompany = companyList.stream().filter(company -> company.getCompanyId() == companyId).findFirst().orElseThrow(Exception::new);
+        return resultCompany.getEmployees();
+
+    }
 }
