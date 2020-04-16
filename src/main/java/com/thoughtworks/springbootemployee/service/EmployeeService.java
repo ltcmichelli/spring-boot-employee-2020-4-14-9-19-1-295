@@ -17,7 +17,7 @@ public class EmployeeService {
         return repository.findAll();
     }
 
-    public Employee getEmployeeById(Integer employeeId) {
+    public Employee getEmployeeById(Integer employeeId) throws Exception {
         return repository.findById(employeeId);
     }
 
@@ -31,7 +31,7 @@ public class EmployeeService {
         return paging.getPagingEmployeeList(employeeList);
     }
 
-    public Employee addEmployee(Employee newEmployee) {
+    public Employee addEmployee(Employee newEmployee) throws Exception {
         if (newEmployee == null) {
             return null;
         }
@@ -41,7 +41,7 @@ public class EmployeeService {
         return repository.save(newEmployee);
     }
 
-    public Employee updateEmployee(Employee updatedEmployee) {
+    public Employee updateEmployee(Employee updatedEmployee) throws Exception {
         Employee targetEmployee = getEmployeeById(updatedEmployee.getEmployeeId());
         if (targetEmployee == null) {
             return null;
@@ -66,7 +66,7 @@ public class EmployeeService {
         return repository.save(targetEmployee);
     }
 
-    public void deleteEmployee(Integer employeeId){
+    public void deleteEmployee(Integer employeeId) throws Exception {
         repository.deleteById(employeeId);
     }
 

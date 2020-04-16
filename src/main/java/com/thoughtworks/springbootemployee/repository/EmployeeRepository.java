@@ -24,8 +24,8 @@ public class EmployeeRepository {
         return employeeList;
     }
 
-    public Employee findById(Integer employeeId) {
-        return employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);
+    public Employee findById(Integer employeeId) throws Exception {
+        return employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElseThrow(Exception::new);
     }
 
     public Employee save(Employee employee) {
@@ -33,7 +33,7 @@ public class EmployeeRepository {
         return employee;
     }
 
-    public void deleteById(Integer employeeId) {
+    public void deleteById(Integer employeeId) throws Exception {
         Employee targetEmployee = findById(employeeId);
         employeeList.remove(targetEmployee);
     }

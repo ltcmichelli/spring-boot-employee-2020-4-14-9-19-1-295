@@ -3,7 +3,6 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import io.restassured.http.ContentType;
-import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import org.junit.Assert;
@@ -12,19 +11,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -40,7 +36,7 @@ public class EmployeeControllerTest {
     private EmployeeService service;
 
     @Before
-    public void setup(){
+    public void setup() {
         EmployeeController employeeController = new EmployeeController(service);
         RestAssuredMockMvc.standaloneSetup(employeeController);
 
@@ -63,7 +59,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturnEmployee_whenGetEmployeeById() {
+    public void shouldReturnEmployee_whenGetEmployeeById() throws Exception {
         doReturn(employee).when(service).getEmployeeById(any());
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
         Employee actualResult = response.getBody().as(Employee.class);
@@ -116,7 +112,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturn201_whenAddEmployee() {
+    public void shouldReturn201_whenAddEmployee() throws Exception {
         Employee newEmployee = new Employee();
         newEmployee.setEmployeeId(6);
         newEmployee.setName("Test");
@@ -134,7 +130,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldUpdateEmployee_whenUpdateEmployeeById() {
+    public void shouldUpdateEmployee_whenUpdateEmployeeById() throws Exception {
         doReturn(employee).when(service).updateEmployee(any());
 
         MockMvcResponse response = given().contentType(ContentType.JSON)
@@ -147,18 +143,23 @@ public class EmployeeControllerTest {
 
     }
 
-//    @Test
-//    public void shouldDeleteEmployee_whenDeleteEmployeeById() {
-//        init();
-//        MockMvcResponse responseOfDelete = given().contentType(ContentType.JSON).when().delete("/employees/1");
-//
-//        MockMvcResponse responseOfGetAllList = given().contentType(ContentType.JSON).when().get("/employees");
-//        List<Employee> actualResultList = responseOfGetAllList.getBody().as(List.class);
-//
-//        assertAll(
-//                () -> Assert.assertEquals(HttpStatus.OK.value(), responseOfDelete.getStatusCode()),
-//                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE - 1, actualResultList.size())
-//        );
-//
-//    }
+    @Test
+    public void shouldDeleteEmployee_whenDeleteEmployeeById() throws Exception {
+        doNothing().when(service).deleteEmployee(any());
+        MockMvcResponse responseOfDelete = given().contentType(ContentType.JSON).when().delete("/employees/1");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.NO_CONTENT.value(), responseOfDelete.getStatusCode())
+        );
+    }
+
+    @Test
+    public void shouldReturn400_givenDeleteIsFail_whenDeleteEmployeeById() throws Exception {
+        doThrow(Exception.class).when(service).deleteEmployee(any());
+        MockMvcResponse responseOfDelete = given().contentType(ContentType.JSON).when().delete("/employees/1");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), responseOfDelete.getStatusCode())
+        );
+    }
 }

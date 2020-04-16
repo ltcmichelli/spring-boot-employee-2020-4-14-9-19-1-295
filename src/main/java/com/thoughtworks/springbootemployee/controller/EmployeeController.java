@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-//    public List<Employee> employeeList = new ArrayList<>();
 
     @Autowired
     private EmployeeService service;
@@ -21,28 +20,20 @@ public class EmployeeController {
         this.service = service;
     }
 
-//    public EmployeeController() {
-//        employeeList.add(new Employee(1, "Xiaoming", 20, "Male", 9000));
-//        employeeList.add(new Employee(2, "Xiaohong", 19, "Female", 9000));
-//        employeeList.add(new Employee(3, "Xiaozhi", 15, "Male", 9000));
-//        employeeList.add(new Employee(4, "Xiaogang", 16, "Male", 9000));
-//        employeeList.add(new Employee(5, "Xiaoxia", 15, "Female", 9000));
-//    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value="gender", required=false) String gender,
-                                                          @RequestParam(value="page", required=false) Integer page,
-                                                          @RequestParam(value="pageSize", required=false) Integer pageSize) {
+    public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value = "gender", required = false) String gender,
+                                                          @RequestParam(value = "page", required = false) Integer page,
+                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         List<Employee> resultEmployeeList = null;
-        if (gender == null && page == null && pageSize == null){
+        if (gender == null && page == null && pageSize == null) {
             resultEmployeeList = service.getAllEmployeeList();
             return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
         }
 
-        if(gender != null){
+        if (gender != null) {
             resultEmployeeList = service.getEmployeeByGender(gender);
-            if (resultEmployeeList.isEmpty()){
+            if (resultEmployeeList.isEmpty()) {
                 new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
@@ -50,7 +41,7 @@ public class EmployeeController {
 
         resultEmployeeList = service.getEmployeeWithPaging(page, pageSize);
 
-        if (resultEmployeeList.isEmpty()){
+        if (resultEmployeeList.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
@@ -59,10 +50,10 @@ public class EmployeeController {
 
     @GetMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable int employeeId) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable int employeeId) throws Exception {
         Employee resultEmployee = service.getEmployeeById(employeeId);
 
-        if (resultEmployee == null){
+        if (resultEmployee == null) {
             new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(resultEmployee, HttpStatus.OK);
@@ -70,7 +61,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmployee) {
+    public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmployee) throws Exception {
         Employee addedEmployee = service.addEmployee(newEmployee);
         if (addedEmployee == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -79,26 +70,23 @@ public class EmployeeController {
         return new ResponseEntity<>(resultList, HttpStatus.CREATED);
     }
 
-//    @DeleteMapping("/{employeeId}")
-//    public ResponseEntity<Employee> deleteEmployee(@PathVariable int employeeId) {
-//        Employee deleteEmployee = employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);
-//
-//        if (deleteEmployee == null) {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//        employeeList.remove(deleteEmployee);
-//
-//        return new ResponseEntity<>(deleteEmployee, HttpStatus.OK);
-//    }
-//
+    @DeleteMapping("/{employeeId}")
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable int employeeId) {
+        try{
+            service.deleteEmployee(employeeId);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }catch (Exception exception){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping("/{employeeId}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable int employeeId, @RequestBody Employee updateEmployee) {
-        Employee updatedEmployee = service.updateEmployee(updateEmployee);
-
-        if (updatedEmployee == null) {
+        try{
+            Employee updatedEmployee = service.updateEmployee(updateEmployee);
+            return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
+        }catch (Exception exception){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
     }
 }
