@@ -59,7 +59,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturnEmployee_whenGetEmployeeById() throws Exception {
+    public void shouldReturn200_whenGetEmployeeById() throws Exception {
         doReturn(employee).when(service).getEmployeeById(any());
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
         Employee actualResult = response.getBody().as(Employee.class);
@@ -71,7 +71,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturnEmployeeList_whenGetEmployee() {
+    public void shouldReturn200_whenGetEmployee() {
         doReturn(employeeList).when(service).getAllEmployeeList();
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
@@ -83,7 +83,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturnEmployeeList_whenGetEmployeeByGender() {
+    public void shouldReturn200_whenGetEmployeeByGender() {
         doReturn(employeeListByGender).when(service).getEmployeeByGender(any());
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("gender", "Male")
@@ -97,7 +97,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturnEmployeeListWithPaging_whenGetEmployeeWithPageSize() {
+    public void shouldReturn200_whenGetEmployeeWithPageSize() {
         doReturn(employeeListWithPaging).when(service).getEmployeeWithPaging(any(), any());
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("page", 1)
@@ -130,7 +130,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldUpdateEmployee_whenUpdateEmployeeById() throws Exception {
+    public void shouldReturn200_whenUpdateEmployeeById() throws Exception {
         doReturn(employee).when(service).updateEmployee(any());
 
         MockMvcResponse response = given().contentType(ContentType.JSON)
@@ -144,7 +144,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldDeleteEmployee_whenDeleteEmployeeById() throws Exception {
+    public void shouldReturn204_givenDeleteIsSuccess_whenDeleteEmployeeById() throws Exception {
         doNothing().when(service).deleteEmployee(any());
         MockMvcResponse responseOfDelete = given().contentType(ContentType.JSON).when().delete("/employees/1");
 
