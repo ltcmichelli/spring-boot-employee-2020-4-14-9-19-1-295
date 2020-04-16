@@ -106,4 +106,24 @@ public class EmployeeControllerTest {
                 () -> Assert.assertEquals(newEmployee.getEmployeeId(), actualResultList.get(5).getEmployeeId())
         );
     }
+
+    @Test
+    public void shouldUpdateEmployee_whenUpdateEmployeeById() {
+        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
+        Employee targetEmployee = response.getBody().as(Employee.class);
+        targetEmployee.setName("Test");
+
+        given().contentType(ContentType.JSON)
+                .body(targetEmployee)
+                .when().put("/employees/1");
+
+        MockMvcResponse newResponse = given().contentType(ContentType.JSON).when().get("/employees/1");
+        Employee updatedEmployee = newResponse.getBody().as(Employee.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(targetEmployee.getName(), updatedEmployee.getName())
+        );
+
+    }
 }
