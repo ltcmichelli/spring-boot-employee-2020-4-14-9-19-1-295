@@ -67,21 +67,18 @@ public class EmployeeController {
         }
         return new ResponseEntity<>(resultEmployee, HttpStatus.OK);
     }
-//
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmployee) {
-//        if (newEmployee == null) {
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
-//        Employee employeeWithSameId = employeeList.stream().filter(employee -> employee.getEmployeeId() == newEmployee.getEmployeeId()).findFirst().orElse(null);
-//        if (employeeWithSameId != null) {
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
-//        employeeList.add(newEmployee);
-//        return new ResponseEntity<>(employeeList, HttpStatus.CREATED);
-//    }
-//
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmployee) {
+        Employee addedEmployee = service.addEmployee(newEmployee);
+        if (addedEmployee == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        List<Employee> resultList = service.getAllEmployeeList();
+        return new ResponseEntity<>(resultList, HttpStatus.CREATED);
+    }
+
 //    @DeleteMapping("/{employeeId}")
 //    public ResponseEntity<Employee> deleteEmployee(@PathVariable int employeeId) {
 //        Employee deleteEmployee = employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);

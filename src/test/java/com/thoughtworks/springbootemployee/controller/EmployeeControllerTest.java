@@ -115,33 +115,24 @@ public class EmployeeControllerTest {
         );
     }
 
-//    @Test
-//    public void shouldAddNewEmployee_whenAddEmployee() {
-//        init();
-//        Employee newEmployee = new Employee();
-//        newEmployee.setEmployeeId(6);
-//        newEmployee.setName("Test");
-//
-//        MockMvcResponse response = given().contentType(ContentType.JSON)
-//                .body(newEmployee)
-//                .when()
-//                .post("/employees");
-//
-//
-//        List<Employee> actualResultList = response.getBody().as(new TypeRef<List<Employee>>() {
-//            @Override
-//            public Type getType() {
-//                return super.getType();
-//            }
-//        });
-//
-//        assertAll(
-//                () -> Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode()),
-//                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE + 1, actualResultList.size()),
-//                () -> Assert.assertEquals(newEmployee.getEmployeeId(), actualResultList.get(5).getEmployeeId())
-//        );
-//    }
-//
+    @Test
+    public void shouldReturn201_whenAddEmployee() {
+        Employee newEmployee = new Employee();
+        newEmployee.setEmployeeId(6);
+        newEmployee.setName("Test");
+        doReturn(newEmployee).when(service).addEmployee(any());
+        doReturn(employeeList).when(service).getAllEmployeeList();
+
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .body(newEmployee)
+                .when()
+                .post("/employees");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode())
+        );
+    }
+
 //    @Test
 //    public void shouldUpdateEmployee_whenUpdateEmployeeById() {
 //        init();

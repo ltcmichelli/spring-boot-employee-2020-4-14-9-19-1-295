@@ -35,6 +35,9 @@ public class EmployeeService {
         if (newEmployee == null) {
             return null;
         }
+        if (getEmployeeById(newEmployee.getEmployeeId()) != null){
+            return null;
+        }
         return repository.save(newEmployee);
     }
 
