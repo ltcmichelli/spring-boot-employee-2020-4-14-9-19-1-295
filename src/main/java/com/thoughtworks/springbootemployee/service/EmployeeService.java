@@ -16,7 +16,7 @@ public class EmployeeService {
         return repository.findAll();
     }
 
-    public Employee getEmployeeById(int employeeId) {
+    public Employee getEmployeeById(Integer employeeId) {
         return repository.findById(employeeId);
     }
 
@@ -50,7 +50,10 @@ public class EmployeeService {
         }
         repository.deleteById(targetEmployee.getEmployeeId());
         return repository.save(targetEmployee);
+    }
 
+    public void deleteEmployee(Integer employeeId){
+        repository.deleteById(employeeId);
     }
 
 }

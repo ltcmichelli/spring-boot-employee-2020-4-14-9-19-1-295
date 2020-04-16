@@ -23,7 +23,7 @@ public class EmployeeRepository {
         return employeeList;
     }
 
-    public Employee findById(int employeeId) {
+    public Employee findById(Integer employeeId) {
         return employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);
     }
 
