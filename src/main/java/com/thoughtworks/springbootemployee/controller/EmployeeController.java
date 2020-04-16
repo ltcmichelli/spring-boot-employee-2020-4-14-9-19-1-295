@@ -25,26 +25,7 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value = "gender", required = false) String gender,
                                                           @RequestParam(value = "page", required = false) Integer page,
                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        List<Employee> resultEmployeeList = null;
-        if (gender == null && page == null && pageSize == null) {
-            resultEmployeeList = service.getAllEmployeeList();
-            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
-        }
-
-        if (gender != null) {
-            resultEmployeeList = service.getEmployeeByGender(gender);
-            if (resultEmployeeList.isEmpty()) {
-                new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
-        }
-
-        resultEmployeeList = service.getEmployeeWithPaging(page, pageSize);
-
-        if (resultEmployeeList.isEmpty()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
+        List<Employee> resultEmployeeList = service.getSpecificEmployeeList(gender, page, pageSize);
         return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
     }
 

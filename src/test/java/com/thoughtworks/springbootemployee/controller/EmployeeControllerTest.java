@@ -82,7 +82,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldReturn200_whenGetEmployee() {
-        doReturn(employeeList).when(service).getAllEmployeeList();
+        doReturn(employeeList).when(service).getSpecificEmployeeList(any(), any(), any());
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
 
@@ -94,21 +94,20 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldReturn200_whenGetEmployeeByGender() {
-        doReturn(employeeListByGender).when(service).getEmployeeByGender(any());
+        doReturn(employeeListByGender).when(service).getSpecificEmployeeList(any(), any(), any());
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("gender", "Male")
                 .when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
 
         assertAll(
-                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
-                () -> Assert.assertEquals(3, actualResultList.size())
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode())
         );
     }
 
     @Test
     public void shouldReturn200_whenGetEmployeeWithPageSize() {
-        doReturn(employeeListWithPaging).when(service).getEmployeeWithPaging(any(), any());
+        doReturn(employeeListWithPaging).when(service).getSpecificEmployeeList(any(), any(), any());
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("page", 1)
                 .param("pageSize", 2)

@@ -4,8 +4,11 @@ import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.model.Page;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +19,20 @@ public class EmployeeService {
     public List<Employee> getAllEmployeeList() {
         return repository.findAll();
     }
+
+    public List<Employee> getSpecificEmployeeList(String gender, Integer page, Integer pageSize){
+
+        if (gender == null && page == null && pageSize == null) {
+            return getAllEmployeeList();
+        }
+
+        if (gender != null) {
+            return getEmployeeByGender(gender);
+        }
+
+        return getEmployeeWithPaging(page, pageSize);
+    }
+
 
     public Employee getEmployeeById(Integer employeeId) throws Exception {
         return repository.findById(employeeId);
