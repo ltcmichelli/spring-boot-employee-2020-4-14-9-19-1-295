@@ -37,7 +37,7 @@ public class EmployeeService {
 
     public List<Employee> getEmployeeByGender(String gender) throws Exception {
         List<Employee> resultList = repository.findByGender(gender);
-        if (resultList.isEmpty()){
+        if (resultList.isEmpty()) {
             throw new Exception();
         }
         return resultList;
@@ -47,7 +47,7 @@ public class EmployeeService {
         List<Employee> employeeList = getAllEmployeeList();
         Page paging = new Page(page, pageSize);
         List<Employee> resultList = paging.getPagingEmployeeList(employeeList);
-        if (resultList == null){
+        if (resultList == null) {
             throw new Exception();
         }
         return resultList;

@@ -25,10 +25,10 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value = "gender", required = false) String gender,
                                                           @RequestParam(value = "page", required = false) Integer page,
                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        try{
+        try {
             List<Employee> resultEmployeeList = service.getSpecificEmployeeList(gender, page, pageSize);
             return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
-        }catch(Exception exception){
+        } catch (Exception exception) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
@@ -36,10 +36,10 @@ public class EmployeeController {
     @GetMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Integer employeeId) {
-        try{
+        try {
             Employee resultEmployee = service.getEmployeeById(employeeId);
             return new ResponseEntity<>(resultEmployee, HttpStatus.OK);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
@@ -47,31 +47,31 @@ public class EmployeeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee newEmployee) {
-        try{
+        try {
             Employee employee = service.addEmployee(newEmployee);
             return new ResponseEntity<>(employee, HttpStatus.CREATED);
 
-        }catch (Exception exception){
+        } catch (Exception exception) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/{employeeId}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Integer employeeId) {
-        try{
+        try {
             service.deleteEmployee(employeeId);
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{employeeId}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Integer employeeId, @RequestBody Employee updateEmployee) {
-        try{
+        try {
             Employee employee = service.updateEmployee(employeeId, updateEmployee);
             return new ResponseEntity<>(employee, HttpStatus.OK);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
