@@ -24,7 +24,7 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value = "gender", required = false) String gender,
                                                           @RequestParam(value = "page", required = false) Integer page,
-                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) throws Exception {
+                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         try{
             List<Employee> resultEmployeeList = service.getSpecificEmployeeList(gender, page, pageSize);
             return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
