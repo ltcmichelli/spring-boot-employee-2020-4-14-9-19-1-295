@@ -66,4 +66,17 @@ public class CompanyControllerTest {
                 () -> Assert.assertEquals(2, actualResultList.size())
         );
     }
+
+    @Test
+    public void shouldReturnEmployeeList_whenGetEmployeeListByCompanyId() {
+        init();
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .when().get("/companies/1/employees");
+        List<Employee> actualResultList = response.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(5, actualResultList.size())
+        );
+    }
 }

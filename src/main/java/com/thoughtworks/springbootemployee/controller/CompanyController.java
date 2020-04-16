@@ -20,17 +20,17 @@ public class CompanyController {
 
     public CompanyController() {
         List<Employee> employeeListInCompanyA = Arrays.asList(
-                new Employee(0, "Xiaoming", 20, "Male", 9000),
-                new Employee(1, "Xiaohong", 19, "Female", 8000),
-                new Employee(2, "Xiaozhi", 15, "Male", 7000),
-                new Employee(3, "Xiaogang", 16, "Male", 7500),
-                new Employee(4, "Xiaoxia", 15, "Female", 8500)
+                new Employee(1, "Xiaoming", 20, "Male", 9000),
+                new Employee(2, "Xiaohong", 19, "Female", 8000),
+                new Employee(3, "Xiaozhi", 15, "Male", 7000),
+                new Employee(4, "Xiaogang", 16, "Male", 7500),
+                new Employee(5, "Xiaoxia", 15, "Female", 8500)
         );
         List<Employee> employeeListInCompanyB = Arrays.asList(
-                new Employee(5, "Amy", 20, "Female", 9000),
-                new Employee(6, "Ben", 19, "Male", 9000),
-                new Employee(7, "Cathy", 15, "Female", 9000),
-                new Employee(8, "David", 16, "Male", 9000)
+                new Employee(6, "Amy", 20, "Female", 9000),
+                new Employee(7, "Ben", 19, "Male", 9000),
+                new Employee(8, "Cathy", 15, "Female", 9000),
+                new Employee(9, "David", 16, "Male", 9000)
         );
         Company companyA = new Company(1,"Company A", 200, employeeListInCompanyA);
         Company companyB = new Company(2,"Company B", 100, employeeListInCompanyB);
