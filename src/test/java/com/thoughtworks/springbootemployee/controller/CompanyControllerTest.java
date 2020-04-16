@@ -51,4 +51,19 @@ public class CompanyControllerTest {
                 () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE, actualResultList.size())
         );
     }
+
+    @Test
+    public void shouldReturnCompanyListWithPaging_whenGetCompanyWithPageSize() {
+        init();
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .param("page", 1)
+                .param("pageSize", 2)
+                .when().get("/companies");
+        List<Company> actualResultList = response.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(2, actualResultList.size())
+        );
+    }
 }
