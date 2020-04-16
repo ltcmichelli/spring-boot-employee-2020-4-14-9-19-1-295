@@ -64,7 +64,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee newEmployee) {
+    public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmployee) {
         if (newEmployee == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
@@ -73,7 +73,7 @@ public class EmployeeController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         employeeList.add(newEmployee);
-        return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeList, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{employeeId}")

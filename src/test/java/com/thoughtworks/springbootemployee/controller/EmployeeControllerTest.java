@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import io.restassured.http.ContentType;
+import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import org.junit.Assert;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
@@ -76,6 +78,32 @@ public class EmployeeControllerTest {
         assertAll(
                 () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
                 () -> Assert.assertEquals(2, actualResultList.size())
+        );
+    }
+
+    @Test
+    public void shouldAddNewEmployee_whenAddEmployee() {
+        Employee newEmployee = new Employee();
+        newEmployee.setEmployeeId(6);
+        newEmployee.setName("Test");
+
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .body(newEmployee)
+                .when()
+                .post("/employees");
+
+
+        List<Employee> actualResultList = response.getBody().as(new TypeRef<List<Employee>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(6, actualResultList.size()),
+                () -> Assert.assertEquals(newEmployee.getEmployeeId(), actualResultList.get(5).getEmployeeId())
         );
     }
 }
