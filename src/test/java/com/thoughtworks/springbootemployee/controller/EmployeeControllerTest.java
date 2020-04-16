@@ -33,6 +33,7 @@ public class EmployeeControllerTest {
     public static final int ORIGINAL_EMPLOYEE_LIST_SIZE = 5;
     public List<Employee> employeeList = new ArrayList<>();
     public List<Employee> employeeListByGender = new ArrayList<>();
+    public List<Employee> employeeListWithPaging = new ArrayList<>();
     public Employee employee = new Employee();
 
     @Mock
@@ -52,6 +53,9 @@ public class EmployeeControllerTest {
         employeeListByGender.add(new Employee(1, "Xiaoming", 20, "Male", 9000));
         employeeListByGender.add(new Employee(3, "Xiaozhi", 15, "Male", 9000));
         employeeListByGender.add(new Employee(4, "Xiaogang", 16, "Male", 9000));
+
+        employeeListWithPaging.add(new Employee(1, "Xiaoming", 20, "Male", 9000));
+        employeeListWithPaging.add(new Employee(2, "Xiaohong", 19, "Female", 9000));
 
         employee.setEmployeeId(1);
         employee.setName("Test");
@@ -96,21 +100,21 @@ public class EmployeeControllerTest {
         );
     }
 
-//    @Test
-//    public void shouldReturnEmployeeListWithPaging_whenGetEmployeeWithPageSize() {
-//        init();
-//        MockMvcResponse response = given().contentType(ContentType.JSON)
-//                .param("page", 1)
-//                .param("pageSize", 2)
-//                .when().get("/employees");
-//        List<Employee> actualResultList = response.getBody().as(List.class);
-//
-//        assertAll(
-//                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
-//                () -> Assert.assertEquals(2, actualResultList.size())
-//        );
-//    }
-//
+    @Test
+    public void shouldReturnEmployeeListWithPaging_whenGetEmployeeWithPageSize() {
+        doReturn(employeeListWithPaging).when(service).getEmployeeWithPaging(any(), any());
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .param("page", 1)
+                .param("pageSize", 2)
+                .when().get("/employees");
+        List<Employee> actualResultList = response.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(2, actualResultList.size())
+        );
+    }
+
 //    @Test
 //    public void shouldAddNewEmployee_whenAddEmployee() {
 //        init();

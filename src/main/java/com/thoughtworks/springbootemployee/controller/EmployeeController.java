@@ -48,8 +48,7 @@ public class EmployeeController {
             return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
         }
 
-//        Page paging = new Page(page, pageSize);
-//        resultEmployeeList = paging.getPagingEmployeeList(employeeList);
+        resultEmployeeList = service.getEmployeeWithPaging(page, pageSize);
 
         if (resultEmployeeList.isEmpty()){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

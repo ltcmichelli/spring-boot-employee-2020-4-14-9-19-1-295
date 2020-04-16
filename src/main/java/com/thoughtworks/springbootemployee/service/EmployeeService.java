@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.model.Page;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class EmployeeService {
 
     public List<Employee> getEmployeeByGender(String gender) {
         return repository.findByGender(gender);
+    }
+
+    public List<Employee> getEmployeeWithPaging(Integer page, Integer pageSize) {
+        List<Employee> employeeList = getAllEmployeeList();
+        Page paging = new Page(page, pageSize);
+        return paging.getPagingEmployeeList(employeeList);
     }
 
     public Employee addEmployee(Employee newEmployee) {
