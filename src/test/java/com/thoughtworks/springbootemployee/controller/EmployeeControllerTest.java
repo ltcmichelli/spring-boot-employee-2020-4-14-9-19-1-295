@@ -64,4 +64,18 @@ public class EmployeeControllerTest {
                 () -> Assert.assertEquals(3, actualResultList.size())
         );
     }
+
+    @Test
+    public void shouldReturnEmployeeListWithPaging_whenGetEmployeeWithPageSize() {
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .param("page", 1)
+                .param("pageSize", 2)
+                .when().get("employees");
+        List<Employee> actualResultList = response.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(2, actualResultList.size())
+        );
+    }
 }
