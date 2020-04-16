@@ -2,6 +2,8 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.model.Page;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/employees")
 public class EmployeeController {
     public List<Employee> employeeList = new ArrayList<>();
+
+    @Autowired
+    private EmployeeService service;
 
     public EmployeeController() {
         employeeList.add(new Employee(1, "Xiaoming", 20, "Male", 9000));
@@ -30,7 +35,8 @@ public class EmployeeController {
                                                           @RequestParam(value="pageSize", required=false) Integer pageSize) {
         List<Employee> resultEmployeeList;
         if (gender == null && page == null && pageSize == null){
-            return new ResponseEntity<>(employeeList, HttpStatus.OK);
+            resultEmployeeList = service.getAll();
+            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
         }
 
         if(gender != null){
