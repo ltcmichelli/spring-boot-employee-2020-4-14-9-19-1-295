@@ -20,6 +20,10 @@ public class EmployeeService {
         return repository.findById(employeeId);
     }
 
+    public List<Employee> getEmployeeByGender(String gender) {
+        return repository.findByGender(gender);
+    }
+
     public Employee addEmployee(Employee newEmployee) {
         if (newEmployee == null) {
             return null;

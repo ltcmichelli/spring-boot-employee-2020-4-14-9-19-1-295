@@ -34,30 +34,28 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value="gender", required=false) String gender,
                                                           @RequestParam(value="page", required=false) Integer page,
                                                           @RequestParam(value="pageSize", required=false) Integer pageSize) {
-        List<Employee> resultEmployeeList;
+        List<Employee> resultEmployeeList = null;
         if (gender == null && page == null && pageSize == null){
             resultEmployeeList = service.getAllEmployeeList();
             return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
         }
 
-//        if(gender != null){
-//            resultEmployeeList = employeeList.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
-//            if (resultEmployeeList.isEmpty()){
-//                new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//            }
-//            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
-//        }
+        if(gender != null){
+            resultEmployeeList = service.getEmployeeByGender(gender);
+            if (resultEmployeeList.isEmpty()){
+                new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
+        }
 
 //        Page paging = new Page(page, pageSize);
 //        resultEmployeeList = paging.getPagingEmployeeList(employeeList);
 
-//        if (resultEmployeeList.isEmpty()){
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//
-//        return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
+        if (resultEmployeeList.isEmpty()){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
     }
 
     @GetMapping("/{employeeId}")
