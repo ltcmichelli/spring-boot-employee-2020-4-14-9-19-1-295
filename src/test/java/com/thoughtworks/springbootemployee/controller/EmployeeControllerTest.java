@@ -81,7 +81,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturn200_whenGetEmployee() {
+    public void shouldReturn200_whenGetEmployee() throws Exception {
         doReturn(employeeList).when(service).getSpecificEmployeeList(any(), any(), any());
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
@@ -93,7 +93,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturn200_whenGetEmployeeByGender() {
+    public void shouldReturn200_whenGetEmployeeByGender() throws Exception {
         doReturn(employeeListByGender).when(service).getSpecificEmployeeList(any(), any(), any());
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("gender", "Male")
@@ -106,7 +106,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturn200_whenGetEmployeeWithPageSize() {
+    public void shouldReturn200_whenGetEmployeeWithPageSize() throws Exception {
         doReturn(employeeListWithPaging).when(service).getSpecificEmployeeList(any(), any(), any());
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("page", 1)

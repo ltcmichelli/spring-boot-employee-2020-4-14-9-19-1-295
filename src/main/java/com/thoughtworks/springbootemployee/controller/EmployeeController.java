@@ -24,9 +24,13 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value = "gender", required = false) String gender,
                                                           @RequestParam(value = "page", required = false) Integer page,
-                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        List<Employee> resultEmployeeList = service.getSpecificEmployeeList(gender, page, pageSize);
-        return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
+                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) throws Exception {
+        try{
+            List<Employee> resultEmployeeList = service.getSpecificEmployeeList(gender, page, pageSize);
+            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
+        }catch(Exception exception){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{employeeId}")

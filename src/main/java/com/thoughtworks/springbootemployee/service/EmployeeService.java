@@ -4,11 +4,8 @@ import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.model.Page;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +17,7 @@ public class EmployeeService {
         return repository.findAll();
     }
 
-    public List<Employee> getSpecificEmployeeList(String gender, Integer page, Integer pageSize){
+    public List<Employee> getSpecificEmployeeList(String gender, Integer page, Integer pageSize) throws Exception {
 
         if (gender == null && page == null && pageSize == null) {
             return getAllEmployeeList();
@@ -38,21 +35,29 @@ public class EmployeeService {
         return repository.findById(employeeId);
     }
 
-    public List<Employee> getEmployeeByGender(String gender) {
-        return repository.findByGender(gender);
+    public List<Employee> getEmployeeByGender(String gender) throws Exception {
+        List<Employee> resultList = repository.findByGender(gender);
+        if (resultList.isEmpty()){
+            throw new Exception();
+        }
+        return resultList;
     }
 
-    public List<Employee> getEmployeeWithPaging(Integer page, Integer pageSize) {
+    public List<Employee> getEmployeeWithPaging(Integer page, Integer pageSize) throws Exception {
         List<Employee> employeeList = getAllEmployeeList();
         Page paging = new Page(page, pageSize);
-        return paging.getPagingEmployeeList(employeeList);
+        List<Employee> resultList = paging.getPagingEmployeeList(employeeList);
+        if (resultList == null){
+            throw new Exception();
+        }
+        return resultList;
     }
 
     public Employee addEmployee(Employee newEmployee) throws Exception {
         if (newEmployee == null) {
             throw new Exception();
         }
-        if (getEmployeeById(newEmployee.getEmployeeId()) != null){
+        if (getEmployeeById(newEmployee.getEmployeeId()) != null) {
             throw new Exception();
         }
         return repository.save(newEmployee);
