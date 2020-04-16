@@ -20,6 +20,10 @@ public class EmployeeRepository {
 
     }
 
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
     public List<Employee> findAll() {
         return employeeList;
     }
