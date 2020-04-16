@@ -57,11 +57,11 @@ public class EmployeeControllerTest {
     public void shouldReturnEmployee_whenGetEmployeeById() {
         doReturn(employee).when(service).getEmployeeById(any());
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
-        //Employee actualResult = response.getBody().as(Employee.class);
+        Employee actualResult = response.getBody().as(Employee.class);
 
         assertAll(
-                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode())
-//                () -> Assert.assertEquals(java.util.Optional.of(1), actualResult.getEmployeeId())
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(1, actualResult.getEmployeeId().intValue())
         );
     }
 
