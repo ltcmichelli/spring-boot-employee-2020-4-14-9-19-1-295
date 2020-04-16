@@ -6,10 +6,8 @@ import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -26,7 +24,7 @@ public class EmployeeControllerTest {
 
     public static final int ORIGINAL_EMPLOYEE_LIST_SIZE = 5;
 
-    public void init(){
+    public void init() {
         EmployeeController employeeController = new EmployeeController();
         RestAssuredMockMvc.standaloneSetup(employeeController);
     }
@@ -133,7 +131,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldDeleteEmployee_whenDeleteEmployeeById(){
+    public void shouldDeleteEmployee_whenDeleteEmployeeById() {
         init();
         MockMvcResponse responseOfDelete = given().contentType(ContentType.JSON).when().delete("/employees/1");
 
