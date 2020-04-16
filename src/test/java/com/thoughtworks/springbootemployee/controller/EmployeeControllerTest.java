@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,16 +35,33 @@ public class EmployeeControllerTest {
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
         Employee actualResult = response.getBody().as(Employee.class);
 
-        Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-        Assert.assertEquals(1, actualResult.getEmployeeId());
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(1, actualResult.getEmployeeId())
+        );
     }
 
     @Test
-    public void shouldReturnEmployeeList_whenGetEmployee(){
+    public void shouldReturnEmployeeList_whenGetEmployee() {
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
 
-        Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-        Assert.assertEquals(5, actualResultList.size());
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(5, actualResultList.size())
+        );
+    }
+
+    @Test
+    public void shouldReturnEmployeeList_whenGetEmployeeByGender() {
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .param("gender", "Male")
+                .when().get("employees");
+        List<Employee> actualResultList = response.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(3, actualResultList.size())
+        );
     }
 }
