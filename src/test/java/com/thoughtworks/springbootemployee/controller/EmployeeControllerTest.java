@@ -65,18 +65,18 @@ public class EmployeeControllerTest {
         );
     }
 
-//    @Test
-//    public void shouldReturnEmployeeList_whenGetEmployee() {
-//        init();
-//        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
-//        List<Employee> actualResultList = response.getBody().as(List.class);
-//
-//        assertAll(
-//                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
-//                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE, actualResultList.size())
-//        );
-//    }
-//
+    @Test
+    public void shouldReturnEmployeeList_whenGetEmployee() {
+        doReturn(employeeList).when(service).getAllEmployeeList();
+        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
+        List<Employee> actualResultList = response.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
+                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE, actualResultList.size())
+        );
+    }
+
 //    @Test
 //    public void shouldReturnEmployeeList_whenGetEmployeeByGender() {
 //        init();

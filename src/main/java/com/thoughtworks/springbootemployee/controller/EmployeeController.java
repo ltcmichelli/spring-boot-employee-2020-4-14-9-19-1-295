@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
@@ -27,17 +29,17 @@ public class EmployeeController {
 //        employeeList.add(new Employee(5, "Xiaoxia", 15, "Female", 9000));
 //    }
 
-//    @GetMapping
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value="gender", required=false) String gender,
-//                                                          @RequestParam(value="page", required=false) Integer page,
-//                                                          @RequestParam(value="pageSize", required=false) Integer pageSize) {
-//        List<Employee> resultEmployeeList = new ArrayList<>();
-//        if (gender == null && page == null && pageSize == null){
-//            resultEmployeeList = service.getAllEmployeeList();
-//            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
-//        }
-//
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Employee>> getEmployeeList(@RequestParam(value="gender", required=false) String gender,
+                                                          @RequestParam(value="page", required=false) Integer page,
+                                                          @RequestParam(value="pageSize", required=false) Integer pageSize) {
+        List<Employee> resultEmployeeList;
+        if (gender == null && page == null && pageSize == null){
+            resultEmployeeList = service.getAllEmployeeList();
+            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
+        }
+
 //        if(gender != null){
 //            resultEmployeeList = employeeList.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
 //            if (resultEmployeeList.isEmpty()){
@@ -45,16 +47,18 @@ public class EmployeeController {
 //            }
 //            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
 //        }
-//
+
 //        Page paging = new Page(page, pageSize);
 //        resultEmployeeList = paging.getPagingEmployeeList(employeeList);
 
-        //if (resultEmployeeList.isEmpty()){
+//        if (resultEmployeeList.isEmpty()){
 //            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        //}
+//        }
+//
+//        return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
 
-        //return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
-//    }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.OK)
