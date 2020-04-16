@@ -24,16 +24,16 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @SpringBootTest
 public class EmployeeControllerTest {
 
-    @Autowired
-    private EmployeeController employeeController;
+    public static final int ORIGINAL_EMPLOYEE_LIST_SIZE = 5;
 
-    @Before
-    public void setUp() throws Exception {
+    public void init(){
+        EmployeeController employeeController = new EmployeeController();
         RestAssuredMockMvc.standaloneSetup(employeeController);
     }
 
     @Test
     public void shouldReturnEmployee_whenGetEmployeeById() {
+        init();
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
         Employee actualResult = response.getBody().as(Employee.class);
 
@@ -45,17 +45,19 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldReturnEmployeeList_whenGetEmployee() {
+        init();
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
 
         assertAll(
                 () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
-                () -> Assert.assertEquals(5, actualResultList.size())
+                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE, actualResultList.size())
         );
     }
 
     @Test
     public void shouldReturnEmployeeList_whenGetEmployeeByGender() {
+        init();
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("gender", "Male")
                 .when().get("/employees");
@@ -69,6 +71,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldReturnEmployeeListWithPaging_whenGetEmployeeWithPageSize() {
+        init();
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("page", 1)
                 .param("pageSize", 2)
@@ -83,6 +86,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldAddNewEmployee_whenAddEmployee() {
+        init();
         Employee newEmployee = new Employee();
         newEmployee.setEmployeeId(6);
         newEmployee.setName("Test");
@@ -102,13 +106,14 @@ public class EmployeeControllerTest {
 
         assertAll(
                 () -> Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode()),
-                () -> Assert.assertEquals(6, actualResultList.size()),
+                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE + 1, actualResultList.size()),
                 () -> Assert.assertEquals(newEmployee.getEmployeeId(), actualResultList.get(5).getEmployeeId())
         );
     }
 
     @Test
     public void shouldUpdateEmployee_whenUpdateEmployeeById() {
+        init();
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
         Employee targetEmployee = response.getBody().as(Employee.class);
         targetEmployee.setName("Test");
@@ -123,6 +128,21 @@ public class EmployeeControllerTest {
         assertAll(
                 () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
                 () -> Assert.assertEquals(targetEmployee.getName(), updatedEmployee.getName())
+        );
+
+    }
+
+    @Test
+    public void shouldDeleteEmployee_whenDeleteEmployeeById(){
+        init();
+        MockMvcResponse responseOfDelete = given().contentType(ContentType.JSON).when().delete("/employees/1");
+
+        MockMvcResponse responseOfGetAllList = given().contentType(ContentType.JSON).when().get("/employees");
+        List<Employee> actualResultList = responseOfGetAllList.getBody().as(List.class);
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), responseOfDelete.getStatusCode()),
+                () -> Assert.assertEquals(ORIGINAL_EMPLOYEE_LIST_SIZE - 1, actualResultList.size())
         );
 
     }
