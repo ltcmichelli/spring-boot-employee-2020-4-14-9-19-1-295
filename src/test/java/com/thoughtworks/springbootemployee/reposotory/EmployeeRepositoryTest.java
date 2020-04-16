@@ -4,11 +4,8 @@ import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -21,7 +18,7 @@ public class EmployeeRepositoryTest {
     public static final int ORIGINAL_EMPLOYEE_LIST_SIZE = 5;
 
     @Test
-    public void shouldReturnAllEmployeeList_whenFindAll(){
+    public void shouldReturnAllEmployeeList_whenFindAll() {
         EmployeeRepository repository = new EmployeeRepository();
         List<Employee> resultList = repository.findAll();
 
@@ -63,7 +60,7 @@ public class EmployeeRepositoryTest {
     }
 
     @Test
-    public void shouldReturnEmployeeList_whenFindByGender(){
+    public void shouldReturnEmployeeList_whenFindByGender() {
         EmployeeRepository repository = new EmployeeRepository();
         List<Employee> resultList = repository.findByGender("Male");
 
