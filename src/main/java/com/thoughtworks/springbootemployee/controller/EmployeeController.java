@@ -35,7 +35,7 @@ public class EmployeeController {
                                                           @RequestParam(value="pageSize", required=false) Integer pageSize) {
         List<Employee> resultEmployeeList;
         if (gender == null && page == null && pageSize == null){
-            resultEmployeeList = service.getAll();
+            resultEmployeeList = service.getAllEmployeeList();
             return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
         }
 

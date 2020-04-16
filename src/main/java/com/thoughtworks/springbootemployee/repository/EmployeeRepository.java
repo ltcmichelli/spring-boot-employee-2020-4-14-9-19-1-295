@@ -22,4 +22,18 @@ public class EmployeeRepository {
     public List<Employee> findAll() {
         return employeeList;
     }
+
+    public Employee findById(int employeeId) {
+        return employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);
+    }
+
+    public Employee save(Employee employee) {
+        employeeList.add(employee);
+        return employee;
+    }
+
+    public void deleteById(Integer employeeId) {
+        Employee targetEmployee = findById(employeeId);
+        employeeList.remove(targetEmployee);
+    }
 }

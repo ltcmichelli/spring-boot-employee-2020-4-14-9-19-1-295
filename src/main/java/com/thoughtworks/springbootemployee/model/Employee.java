@@ -3,14 +3,14 @@ package com.thoughtworks.springbootemployee.model;
 public class Employee {
     public int employeeId;
     public String name;
-    public int age;
+    public Integer age;
     public String gender;
-    public int salary;
+    public Integer salary;
 
     public Employee() {
     }
 
-    public Employee(int employeeId, String name, int age, String gender, int salary) {
+    public Employee(int employeeId, String name, Integer age, String gender, Integer salary) {
         this.employeeId = employeeId;
         this.name = name;
         this.age = age;
@@ -18,7 +18,7 @@ public class Employee {
         this.salary = salary;
     }
 
-    public int getEmployeeId() {
+    public Integer getEmployeeId() {
         return employeeId;
     }
 
@@ -34,7 +34,7 @@ public class Employee {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -50,7 +50,7 @@ public class Employee {
         this.gender = gender;
     }
 
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
