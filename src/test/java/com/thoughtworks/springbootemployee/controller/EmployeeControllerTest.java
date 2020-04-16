@@ -71,6 +71,16 @@ public class EmployeeControllerTest {
     }
 
     @Test
+    public void shouldReturn404_whenGetEmployeeById() throws Exception {
+        doThrow(Exception.class).when(service).getEmployeeById(any());
+        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode())
+        );
+    }
+
+    @Test
     public void shouldReturn200_whenGetEmployee() {
         doReturn(employeeList).when(service).getAllEmployeeList();
         MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
@@ -117,7 +127,6 @@ public class EmployeeControllerTest {
         newEmployee.setEmployeeId(6);
         newEmployee.setName("Test");
         doReturn(newEmployee).when(service).addEmployee(any());
-        doReturn(employeeList).when(service).getAllEmployeeList();
 
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .body(newEmployee)
@@ -130,8 +139,23 @@ public class EmployeeControllerTest {
     }
 
     @Test
+    public void shouldReturn400_whenAddEmployee() throws Exception {
+        Employee newEmployee = new Employee();
+        doThrow(Exception.class).when(service).addEmployee(any());
+
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .body(newEmployee)
+                .when()
+                .post("/employees");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode())
+        );
+    }
+
+    @Test
     public void shouldReturn200_whenUpdateEmployeeById() throws Exception {
-        doReturn(employee).when(service).updateEmployee(any());
+        doReturn(employee).when(service).updateEmployee(any(), any());
 
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .body(employee)
@@ -140,7 +164,19 @@ public class EmployeeControllerTest {
         assertAll(
                 () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode())
         );
+    }
 
+    @Test
+    public void shouldReturn404_whenUpdateEmployeeById() throws Exception {
+        doThrow(Exception.class).when(service).updateEmployee(any(), any());
+
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .body(employee)
+                .when().put("/employees/1");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode())
+        );
     }
 
     @Test
@@ -154,12 +190,12 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturn400_givenDeleteIsFail_whenDeleteEmployeeById() throws Exception {
+    public void shouldReturn404_givenDeleteIsFail_whenDeleteEmployeeById() throws Exception {
         doThrow(Exception.class).when(service).deleteEmployee(any());
         MockMvcResponse responseOfDelete = given().contentType(ContentType.JSON).when().delete("/employees/1");
 
         assertAll(
-                () -> Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), responseOfDelete.getStatusCode())
+                () -> Assert.assertEquals(HttpStatus.NOT_FOUND.value(), responseOfDelete.getStatusCode())
         );
     }
 }

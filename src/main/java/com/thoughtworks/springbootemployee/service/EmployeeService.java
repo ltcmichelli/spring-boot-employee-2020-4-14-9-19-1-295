@@ -33,16 +33,16 @@ public class EmployeeService {
 
     public Employee addEmployee(Employee newEmployee) throws Exception {
         if (newEmployee == null) {
-            return null;
+            throw new Exception();
         }
         if (getEmployeeById(newEmployee.getEmployeeId()) != null){
-            return null;
+            throw new Exception();
         }
         return repository.save(newEmployee);
     }
 
-    public Employee updateEmployee(Employee updatedEmployee) throws Exception {
-        Employee targetEmployee = getEmployeeById(updatedEmployee.getEmployeeId());
+    public Employee updateEmployee(Integer employeeId, Employee updatedEmployee) throws Exception {
+        Employee targetEmployee = getEmployeeById(employeeId);
         if (targetEmployee == null) {
             return null;
         }

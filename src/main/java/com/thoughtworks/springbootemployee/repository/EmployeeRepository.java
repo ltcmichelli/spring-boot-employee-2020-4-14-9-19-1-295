@@ -25,7 +25,7 @@ public class EmployeeRepository {
     }
 
     public Employee findById(Integer employeeId) throws Exception {
-        return employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElseThrow(Exception::new);
+        return employeeList.stream().filter(employee -> employee.getEmployeeId().equals(employeeId)).findFirst().orElseThrow(Exception::new);
     }
 
     public Employee save(Employee employee) {
