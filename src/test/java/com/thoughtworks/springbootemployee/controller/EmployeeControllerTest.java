@@ -133,27 +133,20 @@ public class EmployeeControllerTest {
         );
     }
 
-//    @Test
-//    public void shouldUpdateEmployee_whenUpdateEmployeeById() {
-//        init();
-//        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees/1");
-//        Employee targetEmployee = response.getBody().as(Employee.class);
-//        targetEmployee.setName("Test");
-//
-//        given().contentType(ContentType.JSON)
-//                .body(targetEmployee)
-//                .when().put("/employees/1");
-//
-//        MockMvcResponse newResponse = given().contentType(ContentType.JSON).when().get("/employees/1");
-//        Employee updatedEmployee = newResponse.getBody().as(Employee.class);
-//
-//        assertAll(
-//                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
-//                () -> Assert.assertEquals(targetEmployee.getName(), updatedEmployee.getName())
-//        );
-//
-//    }
-//
+    @Test
+    public void shouldUpdateEmployee_whenUpdateEmployeeById() {
+        doReturn(employee).when(service).updateEmployee(any());
+
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .body(employee)
+                .when().put("/employees/1");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode())
+        );
+
+    }
+
 //    @Test
 //    public void shouldDeleteEmployee_whenDeleteEmployeeById() {
 //        init();

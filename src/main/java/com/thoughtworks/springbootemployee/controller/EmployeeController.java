@@ -91,16 +91,14 @@ public class EmployeeController {
 //        return new ResponseEntity<>(deleteEmployee, HttpStatus.OK);
 //    }
 //
-//    @PutMapping("/{employeeId}")
-//    public ResponseEntity<Employee> updateEmployee(@PathVariable int employeeId, @RequestBody Employee updateEmployee) {
-//        Employee employeeInList = employeeList.stream().filter(employee -> employee.getEmployeeId() == employeeId).findFirst().orElse(null);
-//
-//        if (employeeInList == null) {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//        employeeList.remove(employeeInList);
-//        employeeList.add(updateEmployee);
-//
-//        return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
-//    }
+    @PutMapping("/{employeeId}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable int employeeId, @RequestBody Employee updateEmployee) {
+        Employee updatedEmployee = service.updateEmployee(updateEmployee);
+
+        if (updatedEmployee == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
+    }
 }
