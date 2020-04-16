@@ -43,7 +43,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldReturnEmployeeList_whenGetEmployee() {
-        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("employees");
+        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
 
         assertAll(
@@ -56,7 +56,7 @@ public class EmployeeControllerTest {
     public void shouldReturnEmployeeList_whenGetEmployeeByGender() {
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("gender", "Male")
-                .when().get("employees");
+                .when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
 
         assertAll(
@@ -70,7 +70,7 @@ public class EmployeeControllerTest {
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .param("page", 1)
                 .param("pageSize", 2)
-                .when().get("employees");
+                .when().get("/employees");
         List<Employee> actualResultList = response.getBody().as(List.class);
 
         assertAll(
