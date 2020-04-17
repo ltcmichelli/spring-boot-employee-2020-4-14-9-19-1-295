@@ -53,15 +53,12 @@ public class CompanyService {
         }
         return repository.save(company);
     }
-
+// TODO Update employee list???
     public Company updateCompany(Integer companyId, Company updatedCompany) throws Exception {
         if (getCompanyById(companyId) == null) {
             return null;
         }
-        Company targetCompany = new Company();
-        targetCompany.update(updatedCompany);
-
-        return repository.save(targetCompany);
+        return repository.save(updatedCompany);
     }
 
     public void deleteCompany(Integer companyId) throws Exception {

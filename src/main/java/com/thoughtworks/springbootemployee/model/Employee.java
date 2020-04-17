@@ -25,22 +25,4 @@ public class Employee {
     private Integer salary;
 
     private Integer companyId;
-
-    public void update(Employee updatedEmployee){
-        if (updatedEmployee.getName() != null) {
-            this.setName(updatedEmployee.getName());
-        }
-
-        if (updatedEmployee.getAge() != null) {
-            this.setAge(updatedEmployee.getAge());
-        }
-
-        if (updatedEmployee.getGender() != null) {
-            this.setGender(updatedEmployee.getGender());
-        }
-
-        if (updatedEmployee.getSalary() != null) {
-            this.setSalary(updatedEmployee.getSalary());
-        }
-    }
 }
