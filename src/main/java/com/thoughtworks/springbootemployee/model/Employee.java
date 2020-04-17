@@ -18,28 +18,29 @@ import javax.persistence.Id;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer employeeId;
-    public String name;
-    public Integer age;
-    public String gender;
-    public Integer salary;
+    private Integer employeeId;
+    private String name;
+    private Integer age;
+    private String gender;
+    private Integer salary;
+
+    private Integer companyId;
 
     public void update(Employee updatedEmployee){
-        Employee targetEmployee = new Employee();
         if (updatedEmployee.getName() != null) {
-            targetEmployee.setName(updatedEmployee.getName());
+            this.setName(updatedEmployee.getName());
         }
 
         if (updatedEmployee.getAge() != null) {
-            targetEmployee.setAge(updatedEmployee.getAge());
+            this.setAge(updatedEmployee.getAge());
         }
 
         if (updatedEmployee.getGender() != null) {
-            targetEmployee.setGender(updatedEmployee.getGender());
+            this.setGender(updatedEmployee.getGender());
         }
 
         if (updatedEmployee.getSalary() != null) {
-            targetEmployee.setSalary(updatedEmployee.getSalary());
+            this.setSalary(updatedEmployee.getSalary());
         }
     }
 }

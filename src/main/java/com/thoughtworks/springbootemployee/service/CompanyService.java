@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class CompanyService {
     @Autowired
-    private CompanyRepository repository;
+    private CompanyRepository repository ;
 
     public List<Company> getAllCompanyList() {
         return repository.findAll();
@@ -27,10 +27,10 @@ public class CompanyService {
         return getCompanyWithPaging(page, pageSize);
     }
 
-
-    public List<Employee> getEmployeeListByCompanyId(Integer companyId) throws Exception {
-        return repository.getEmployeeListByCompanyId(companyId);
-    }
+// TODO check if the list null?
+//    public List<Employee> getEmployeeListByCompanyId(Integer companyId) throws Exception {
+//        return repository.findEmployeeListByCompanyId(companyId);
+//    }
 
 
     public List<Company> getCompanyWithPaging(Integer page, Integer pageSize) throws Exception {
@@ -44,38 +44,23 @@ public class CompanyService {
     }
 
     public Company getCompanyById(Integer companyId) throws Exception {
-        return repository.findById(companyId);
+        return repository.findById(companyId).orElseThrow(Exception::new);
     }
 
     public Company addCompany(Company company) throws Exception {
         if (company == null) {
             throw new Exception();
         }
-        if (getCompanyById(company.getCompanyId()) != null) {
-            throw new Exception();
-        }
         return repository.save(company);
     }
 
     public Company updateCompany(Integer companyId, Company updatedCompany) throws Exception {
-        Company targetCompany = getCompanyById(companyId);
-        if (targetCompany == null) {
+        if (getCompanyById(companyId) == null) {
             return null;
         }
+        Company targetCompany = new Company();
+        targetCompany.update(updatedCompany);
 
-        if (updatedCompany.getCompanyName() != null) {
-            targetCompany.setCompanyName(updatedCompany.getCompanyName());
-        }
-
-        if (updatedCompany.getEmployeesNumber() != null) {
-            targetCompany.setEmployeesNumber(updatedCompany.getEmployeesNumber());
-        }
-
-        if (updatedCompany.getEmployees() != null) {
-            targetCompany.setEmployees(updatedCompany.getEmployees());
-        }
-
-        repository.deleteById(targetCompany.getCompanyId());
         return repository.save(targetCompany);
     }
 

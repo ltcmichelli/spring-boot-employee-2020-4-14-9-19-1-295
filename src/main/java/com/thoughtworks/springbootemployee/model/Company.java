@@ -1,52 +1,39 @@
 package com.thoughtworks.springbootemployee.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Company {
-    public Integer companyId;
-    public String companyName;
-    public Integer employeesNumber;
-    public List<Employee> employees;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer companyId;
+    private String companyName;
+    private Integer employeesNumber;
 
-    public Company(){
-    }
+    @OneToMany(targetEntity = Employee.class, mappedBy = "companyId", fetch = FetchType.EAGER)
+    private List<Employee> employees;
 
-    public Company(Integer companyId, String companyName, Integer employeesNumber, List<Employee> employees) {
-        this.companyId = companyId;
-        this.companyName = companyName;
-        this.employeesNumber = employeesNumber;
-        this.employees = employees;
-    }
+    public void update(Company updatedCompany){
+        if (updatedCompany.getCompanyName() != null) {
+            this.setCompanyName(updatedCompany.getCompanyName());
+        }
 
-    public Integer getCompanyId() {
-        return companyId;
-    }
+        if (updatedCompany.getEmployeesNumber() != null) {
+            this.setEmployeesNumber(updatedCompany.getEmployeesNumber());
+        }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public Integer getEmployeesNumber() {
-        return employeesNumber;
-    }
-
-    public void setEmployeesNumber(int employeesNumber) {
-        this.employeesNumber = employeesNumber;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+        if (updatedCompany.getEmployees() != null) {
+            this.setEmployees(updatedCompany.getEmployees());
+        }
     }
 }

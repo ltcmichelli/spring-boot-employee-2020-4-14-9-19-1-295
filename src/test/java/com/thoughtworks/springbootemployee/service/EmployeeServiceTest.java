@@ -30,15 +30,16 @@ public class EmployeeServiceTest {
 
     @Before
     public void setup() {
-        employeeList.add(new Employee(1, "Xiaoming", 20, "Male", 9000));
-        employeeList.add(new Employee(2, "Xiaohong", 19, "Female", 9000));
-        employeeList.add(new Employee(3, "Xiaozhi", 15, "Male", 9000));
-        employeeList.add(new Employee(4, "Xiaogang", 16, "Male", 9000));
-        employeeList.add(new Employee(5, "Xiaoxia", 15, "Female", 9000));
+        Employee employee = new Employee();
+        employee.setName("Test");
+        employee.setCompanyId(1);
 
-        employeeListWithGender.add(new Employee(1, "Xiaoming", 20, "Male", 9000));
-        employeeListWithGender.add(new Employee(3, "Xiaozhi", 15, "Male", 9000));
-        employeeListWithGender.add(new Employee(4, "Xiaogang", 16, "Male", 9000));
+        employeeList.add(employee);
+        employeeList.add(employee);
+        employeeList.add(employee);
+
+        employeeListWithGender.add(employee);
+        employeeListWithGender.add(employee);
 
     }
 
