@@ -1,6 +1,9 @@
 package com.thoughtworks.springbootemployee.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,54 +24,22 @@ public class Employee {
     public String gender;
     public Integer salary;
 
-//    public Employee() {
-//    }
-//
-//    public Employee(int employeeId, String name, Integer age, String gender, Integer salary) {
-//        this.employeeId = employeeId;
-//        this.name = name;
-//        this.age = age;
-//        this.gender = gender;
-//        this.salary = salary;
-//    }
+    public void update(Employee updatedEmployee){
+        Employee targetEmployee = new Employee();
+        if (updatedEmployee.getName() != null) {
+            targetEmployee.setName(updatedEmployee.getName());
+        }
 
-//    public Integer getEmployeeId() {
-//        return employeeId;
-//    }
-//
-//    public void setEmployeeId(int employeeId) {
-//        this.employeeId = employeeId;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public Integer getAge() {
-//        return age;
-//    }
-//
-//    public void setAge(int age) {
-//        this.age = age;
-//    }
-//
-//    public String getGender() {
-//        return gender;
-//    }
-//
-//    public void setGender(String gender) {
-//        this.gender = gender;
-//    }
-//
-//    public Integer getSalary() {
-//        return salary;
-//    }
-//
-//    public void setSalary(int salary) {
-//        this.salary = salary;
-//    }
+        if (updatedEmployee.getAge() != null) {
+            targetEmployee.setAge(updatedEmployee.getAge());
+        }
+
+        if (updatedEmployee.getGender() != null) {
+            targetEmployee.setGender(updatedEmployee.getGender());
+        }
+
+        if (updatedEmployee.getSalary() != null) {
+            targetEmployee.setSalary(updatedEmployee.getSalary());
+        }
+    }
 }

@@ -28,26 +28,26 @@ public class EmployeeService {
         }
 
         if (gender != null) {
-            return getEmployeeByGender(gender);
+            return getEmployeeListByGender(gender);
         }
 
-        return getEmployeeWithPaging(page, pageSize);
+        return getEmployeeListWithPaging(page, pageSize);
     }
 
 
     public Employee getEmployeeById(Integer employeeId) throws Exception {
-        return repository.findById(employeeId);
+        return repository.findById(employeeId).orElseThrow(Exception::new);
     }
 
-    public List<Employee> getEmployeeByGender(String gender) throws Exception {
-        List<Employee> resultList = repository.findByGender(gender);
+    public List<Employee> getEmployeeListByGender(String gender) throws Exception {
+        List<Employee> resultList = repository.findAllByGender(gender);
         if (resultList.isEmpty()) {
             throw new Exception();
         }
         return resultList;
     }
 
-    public List<Employee> getEmployeeWithPaging(Integer page, Integer pageSize) throws Exception {
+    public List<Employee> getEmployeeListWithPaging(Integer page, Integer pageSize) throws Exception {
         List<Employee> employeeList = getAllEmployeeList();
         Page paging = new Page(page, pageSize);
         List<Employee> resultList = paging.getPagingEmployeeList(employeeList);
@@ -61,34 +61,16 @@ public class EmployeeService {
         if (newEmployee == null) {
             throw new Exception();
         }
-        if (getEmployeeById(newEmployee.getEmployeeId()) != null) {
-            throw new Exception();
-        }
         return repository.save(newEmployee);
     }
-
+// TODO check the return
     public Employee updateEmployee(Integer employeeId, Employee updatedEmployee) throws Exception {
-        Employee targetEmployee = getEmployeeById(employeeId);
-        if (targetEmployee == null) {
+        if (getEmployeeById(employeeId) == null) {
             return null;
         }
+        Employee targetEmployee = new Employee();
+        targetEmployee.update(updatedEmployee);
 
-        if (updatedEmployee.getName() != null) {
-            targetEmployee.setName(updatedEmployee.getName());
-        }
-
-        if (updatedEmployee.getAge() != null) {
-            targetEmployee.setAge(updatedEmployee.getAge());
-        }
-
-        if (updatedEmployee.getGender() != null) {
-            targetEmployee.setGender(updatedEmployee.getGender());
-        }
-
-        if (updatedEmployee.getSalary() != null) {
-            targetEmployee.setSalary(updatedEmployee.getSalary());
-        }
-        repository.deleteById(targetEmployee.getEmployeeId());
         return repository.save(targetEmployee);
     }
 

@@ -56,7 +56,7 @@ public class EmployeeServiceTest {
     @Test
     public void shouldGetAllList_givenGender_whenGetSpecificEmployeeList() throws Exception {
         EmployeeService service = new EmployeeService(repository);
-        doReturn(employeeListWithGender).when(repository).findByGender(any());
+        doReturn(employeeListWithGender).when(repository).findAllByGender(any());
         List<Employee> resultList = service.getSpecificEmployeeList("Male", null, null);
 
         assertAll(
