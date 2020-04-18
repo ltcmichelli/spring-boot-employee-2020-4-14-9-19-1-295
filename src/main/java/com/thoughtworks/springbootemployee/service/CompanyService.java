@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class CompanyService {
     @Autowired
-    private CompanyRepository repository ;
+    private CompanyRepository repository;
 
     public List<Company> getAllCompanyList() {
         return repository.findAll();
@@ -27,10 +27,11 @@ public class CompanyService {
         return getCompanyWithPaging(page, pageSize);
     }
 
-// TODO check if the list null?
-//    public List<Employee> getEmployeeListByCompanyId(Integer companyId) throws Exception {
-//        return repository.findEmployeeListByCompanyId(companyId);
-//    }
+
+    public List<Employee> getEmployeeListByCompanyId(Integer companyId) throws Exception {
+        Company company = getCompanyById(companyId);
+        return company.getEmployees();
+    }
 
 
     public List<Company> getCompanyWithPaging(Integer page, Integer pageSize) throws Exception {
@@ -53,15 +54,16 @@ public class CompanyService {
         }
         return repository.save(company);
     }
-// TODO Update employee list???
+
     public Company updateCompany(Integer companyId, Company updatedCompany) throws Exception {
         if (getCompanyById(companyId) == null) {
-            return null;
+            throw new Exception();
         }
         return repository.save(updatedCompany);
     }
 
     public void deleteCompany(Integer companyId) throws Exception {
+        getCompanyById(companyId);
         repository.deleteById(companyId);
     }
 

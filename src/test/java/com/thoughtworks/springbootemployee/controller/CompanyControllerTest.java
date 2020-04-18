@@ -56,8 +56,7 @@ public class CompanyControllerTest {
         Company actualResult = response.getBody().as(Company.class);
 
         assertAll(
-                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode()),
-                () -> Assert.assertEquals(1, actualResult.getCompanyId().intValue())
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode())
         );
     }
 
@@ -108,27 +107,27 @@ public class CompanyControllerTest {
         );
     }
 
-//    @Test
-//    public void shouldReturn200_whenGetEmployeeListByCompanyId() throws Exception {
-//        doReturn(employeeList).when(service).getEmployeeListByCompanyId(any());
-//
-//        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/companies/1/employees");
-//
-//        assertAll(
-//                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode())
-//        );
-//    }
-//
-//    @Test
-//    public void shouldReturn404_whenGetEmployeeListByCompanyId() throws Exception {
-//        doThrow(Exception.class).when(service).getEmployeeListByCompanyId(any());
-//
-//        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/companies/1/employees");
-//
-//        assertAll(
-//                () -> Assert.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode())
-//        );
-//    }
+    @Test
+    public void shouldReturn200_whenGetEmployeeListByCompanyId() throws Exception {
+        doReturn(employeeList).when(service).getEmployeeListByCompanyId(any());
+
+        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/companies/1/employees");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode())
+        );
+    }
+
+    @Test
+    public void shouldReturn404_whenGetEmployeeListByCompanyId() throws Exception {
+        doThrow(Exception.class).when(service).getEmployeeListByCompanyId(any());
+
+        MockMvcResponse response = given().contentType(ContentType.JSON).when().get("/companies/1/employees");
+
+        assertAll(
+                () -> Assert.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode())
+        );
+    }
 
     @Test
     public void shouldReturn201_whenAddCompany() throws Exception {

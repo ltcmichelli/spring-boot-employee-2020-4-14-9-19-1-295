@@ -44,16 +44,16 @@ public class CompanyController {
         }
     }
 
-//    @GetMapping("/{companyId}/employees")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<List<Employee>> getEmployeeListByCompanyId(@PathVariable int companyId) {
-//        try {
-//            List<Employee> resultEmployeeList = service.getEmployeeListByCompanyId(companyId);
-//            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
-//        } catch (Exception exception) {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @GetMapping("/{companyId}/employees")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Employee>> getEmployeeListByCompanyId(@PathVariable int companyId) {
+        try {
+            List<Employee> resultEmployeeList = service.getEmployeeListByCompanyId(companyId);
+            return new ResponseEntity<>(resultEmployeeList, HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

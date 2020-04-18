@@ -49,6 +49,7 @@ public class EmployeeService {
 
     public List<Employee> getEmployeeListWithPaging(Integer page, Integer pageSize) throws Exception {
         List<Employee> employeeList = getAllEmployeeList();
+
         Page paging = new Page(page, pageSize);
         List<Employee> resultList = paging.getPagingEmployeeList(employeeList);
         if (resultList == null) {
@@ -63,15 +64,16 @@ public class EmployeeService {
         }
         return repository.save(newEmployee);
     }
-// TODO check the return
+
     public Employee updateEmployee(Integer employeeId, Employee updatedEmployee) throws Exception {
         if (getEmployeeById(employeeId) == null) {
-            return null;
+            throw new Exception();
         }
         return repository.save(updatedEmployee);
     }
 
     public void deleteEmployee(Integer employeeId) throws Exception {
+        getEmployeeById(employeeId);
         repository.deleteById(employeeId);
     }
 
