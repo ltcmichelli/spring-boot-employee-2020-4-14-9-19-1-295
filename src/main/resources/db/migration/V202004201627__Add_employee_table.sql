@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS employee(
     gender varchar(30) not null,
     salary int not null,
     company_id int not null,
+    parking_boy_id int not null,
     PRIMARY KEY(employee_id)
 )
