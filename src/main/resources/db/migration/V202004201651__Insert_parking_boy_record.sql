@@ -1,0 +1,1 @@
+INSERT INTO parking_boy (nickname) VALUES ('parking boy 1');
