@@ -18,7 +18,7 @@ public class ParkingBoy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     private String nickname;
 
     @JsonIgnore

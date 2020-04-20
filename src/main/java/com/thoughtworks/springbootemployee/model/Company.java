@@ -25,4 +25,15 @@ public class Company {
     @OneToMany(targetEntity = Employee.class, mappedBy = "companyId", fetch = FetchType.EAGER)
     private List<Employee> employees;
 
+    public void update(Company updatedCompany) {
+        if(updatedCompany.getCompanyName() != null){
+            this.companyName = updatedCompany.companyName;
+        }
+        if(updatedCompany.getEmployeesNumber() != null){
+            this.employeesNumber = updatedCompany.employeesNumber;
+        }
+        if(updatedCompany.getEmployees() != null){
+            this.employees = updatedCompany.employees;
+        }
+    }
 }

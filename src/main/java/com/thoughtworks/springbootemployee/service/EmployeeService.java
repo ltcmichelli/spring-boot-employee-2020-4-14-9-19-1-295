@@ -66,10 +66,16 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Integer employeeId, Employee updatedEmployee) throws Exception {
-        if (getEmployeeById(employeeId) == null) {
+
+        Employee targetEmployee = getEmployeeById(employeeId);
+
+        if (targetEmployee == null) {
             throw new Exception();
         }
-        return repository.save(updatedEmployee);
+
+        targetEmployee.update(updatedEmployee);
+
+        return repository.save(targetEmployee);
     }
 
     public void deleteEmployee(Integer employeeId) throws Exception {

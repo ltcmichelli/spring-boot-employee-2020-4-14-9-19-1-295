@@ -31,4 +31,25 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "parking_boy_id", referencedColumnName = "id")
     private ParkingBoy parkingBoy;
+
+    public void update(Employee updatedEmployee) {
+        if(updatedEmployee.getName() != null){
+            this.name = updatedEmployee.name;
+        }
+        if(updatedEmployee.getAge() != null){
+            this.age = updatedEmployee.age;
+        }
+        if(updatedEmployee.getGender() != null){
+            this.gender = updatedEmployee.gender;
+        }
+        if(updatedEmployee.getSalary() != null){
+            this.salary = updatedEmployee.salary;
+        }
+        if(updatedEmployee.getCompanyId() != null){
+            this.companyId = updatedEmployee.companyId;
+        }
+        if(updatedEmployee.getParkingBoy() != null){
+            this.parkingBoy = updatedEmployee.parkingBoy;
+        }
+    }
 }

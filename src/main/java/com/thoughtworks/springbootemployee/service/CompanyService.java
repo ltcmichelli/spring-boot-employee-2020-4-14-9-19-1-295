@@ -56,10 +56,15 @@ public class CompanyService {
     }
 
     public Company updateCompany(Integer companyId, Company updatedCompany) throws Exception {
-        if (getCompanyById(companyId) == null) {
+        Company targetCompany = getCompanyById(companyId);
+
+        if (targetCompany == null) {
             throw new Exception();
         }
-        return repository.save(updatedCompany);
+
+        targetCompany.update(updatedCompany);
+
+        return repository.save(targetCompany);
     }
 
     public void deleteCompany(Integer companyId) throws Exception {
