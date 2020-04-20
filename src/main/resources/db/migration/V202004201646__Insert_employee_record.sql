@@ -1,1 +1,1 @@
-INSERT INTO EMPLOYEE (name, age, gender, salary, company_id, parking_boy_id) VALUES ('employee1', 20, 'Male', 9000, 1, 1);
+INSERT INTO EMPLOYEE (name, age, gender, salary, company_id, parking_boy_id) VALUES ('employee 1', 20, 'Male', 9000, 1, 1);

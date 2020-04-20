@@ -16,22 +16,16 @@ import javax.persistence.*;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
     private Integer employeeId;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "age")
     private Integer age;
 
-    @Column(name = "gender")
     private String gender;
 
-    @Column(name = "salary")
     private Integer salary;
 
-    @Column(name = "company_id")
     private Integer companyId;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
