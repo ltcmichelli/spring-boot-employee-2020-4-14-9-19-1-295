@@ -103,7 +103,7 @@
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
-					<url>jdbc:h2:~/tw/test</url>
+					<url>jdbc:h2:mem:testdb</url>
 					<user>sa</user>
 				</configuration>
 			</plugin>
